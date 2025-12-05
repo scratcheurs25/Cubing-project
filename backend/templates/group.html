@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>group</title>
+</head>
+<body>
+
+<ul id="group-list"></ul>
+
+<script src="{{ url_for('static', filename='api.js') }}"></script>
+<script>
+    async function _get() {
+    let data = await get_all_group()
+
+    const list = document.getElementById("group-list");
+    list.innerHTML = "";
+
+    data.forEach(group => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = `/group/${group.id}/detail`;
+        link.textContent = `ID: ${group.id} – ${group.name} - ${group.makerid}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+    
+}
+
+_get()
+</script>
+</body>
+</html>
