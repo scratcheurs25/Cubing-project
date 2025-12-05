@@ -2,6 +2,7 @@ const USER_URL = "http://127.0.0.1:5000/api/v0/user/";
 const EVENT_URL = "http://127.0.0.1:5000/api/v0/event/";
 const GROUP_URL = "http://127.0.0.1:5000/api/v0/group/"
 const ROOT_URL = "http://127.0.0.1:5000/"
+const RESULT_URL = "http://127.0.0.1:5000/api/v0/result/"
 
 let username = document.getElementById("username")
 let password = document.getElementById("password")
@@ -388,4 +389,39 @@ async function edit_group(Id){
       const data = await response.json();
       return data
 
+}
+
+async function get_result_user(event,user) {
+  const payload = {
+         "args":[event , user]
+      };
+      const response = await fetch(RESULT_URL+"get_user_result", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Récupération de la réponse JSON
+      const data = await response.json();
+      return data
+  
+}
+
+function msToMinSecMs(ms) {
+    // Validation d'entrée
+    if (typeof ms !== 'number' || isNaN(ms) || ms < 0) {
+        throw new Error("Veuillez fournir un nombre positif en millisecondes.");
+    }
+
+    const minutes = Math.floor(ms / 60000); // 1 min = 60 000 ms
+    const seconds = Math.floor((ms % 60000) / 1000);
+    const milliseconds = ms % 1000;
+
+    // Formatage avec zéro devant si nécessaire
+    const secStr = seconds.toString().padStart(2, '0');
+    const msStr = milliseconds.toString().padStart(3, '0');
+
+    return `${minutes}:${secStr}:${msStr}`;
 }
