@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event list</title>
+</head>
+<body>
+
+<ul id="event-list"></ul>
+<a href="/event_maker">
+<button>create new events</button>
+</a>
+<script src="{{ url_for('static', filename='api.js') }}"></script>
+<script>
+    async function _get() {
+    let data = await get_all_event();
+
+    const list = document.getElementById("event-list");
+    list.innerHTML = "";
+
+    data.forEach(event => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = `/events/${event.id}/detail`;
+        link.textContent = `ID: ${event.id} – ${event.name} - ${event.makerid}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+    
+}
+_get()
+
+</script>
+</body>
+</html>

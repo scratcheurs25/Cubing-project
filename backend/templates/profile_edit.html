@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+</head>
+<body>
+
+    <img src="{{ icon }}" alt="{{ name }}">
+    <input value="{{ icon }}" id="icon">
+    <h1><input value="{{name}}" id="username"> , Id {{id}} , wca <input value="{{wca}}" id="text"></h1>
+<h1>password <input id="password"></h1>
+    <button onclick="editProfile()">Apply</button>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+</body>
+</html>

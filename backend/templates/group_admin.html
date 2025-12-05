@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>group</title>
+</head>
+<body>
+    <h1>Group <input value="{{name}}" id="name_group"> , id:{{id}}  <h1 id="username"></h1></h1>
+    <input value="{{icon}}" id="icon">
+    <img src=" {{icon}} " alt="{{ name }}">
+
+    <button onclick="_edit()">Update</button>
+    <p>users:</p>
+    <ul id="users-list"></ul>
+    <p>events:</p>
+
+    <ul id="events-list"></ul>
+
+<input type="number" id="id">
+<p id="personne"></p>
+<button onclick="invite()">invite</button>
+
+
+    
+
+    <script>
+        const input = document.getElementById("id");
+  const p = document.getElementById("personne");
+input.addEventListener("input", () => {
+get_user(input.value).then(data => {
+  console.log(data);            // tableau
+  p.textContent = data[0].name; // rubis1000
+});
+  });
+
+    </script>
+<br>
+<input type="number" id="idevent">
+<p id="personne2"></p>
+<button onclick="add_event()">add_event</button>
+
+    <script>
+        const input2 = document.getElementById("idevent");
+  const p2 = document.getElementById("personne2");
+input2.addEventListener("input", () => {
+get_event(input2.value).then(data => {
+  console.log(data);            // tableau
+  p2.textContent = data[0].name; // rubis1000
+});
+  });
+
+    </script>
+
+<script src="{{ url_for('static', filename='api.js') }}"></script>
+
+    <script>
+        async function loadMaker() {
+            const usernameElement = document.getElementById("username");
+            const eventmakerid = "{{ maker_id }}";   // injecté par Flask
+            const userId = parseInt(eventmakerid);  // convertir en nombre
+
+            // attendre la réponse de ton API
+            const event_maker_name = await get_user(userId);
+
+            const name = event_maker_name.map(user => `${user.name}`).join(" , ");
+
+            usernameElement.innerHTML = "creér par "+name;
+        }
+
+        
+
+async function _get_users() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await get_all_user_from_group(real_id)
+
+    const list = document.getElementById("users-list");
+    list.innerHTML = "";
+
+    data.forEach(user => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+         link.href = `/profil/${user.id}/detail`;
+        link.textContent = `ID: ${user.id} – ${user.name} - ${user.wca}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+}
+
+async function _get_events() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await get_all_events_from_group(real_id)
+
+    const list = document.getElementById("events-list");
+    list.innerHTML = "";
+
+    data.forEach(events => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = `/events/${events.id}/detail`;
+        link.textContent = `ID: ${events.id} – ${events.name} - ${events.makerid}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+}
+
+async function invite() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await add_user_to_group(real_id)
+    
+}
+
+async function add_event() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await add_event_to_group(real_id)
+    
+}
+async function _edit() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await edit_group(real_id)
+    
+}
+
+
+loadMaker();
+_get_users();
+_get_events();
+
+    </script>
+</body>
+</html>

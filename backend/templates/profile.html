@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+    <img src="{{ icon }}" alt="" class="inline-block size-25 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
+    <p1 style="font-size: 35px;">{{ name }} </p1> <p1 style="font-size: 15px;"> Id : {{id}}</p1>
+
+
+    <p style="position:fixed; left:85%; top:85%; font-size: 35px;">wca : {{wca}}</p>
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+
+
+</body>
+</html>

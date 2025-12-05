@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event</title>
+</head>
+<body>
+
+    <h1>Événement : {{ name }} , Id {{ id }}</h1>
+    <h1 id="username"></h1>
+    <h1>règle : {{ rule }}</h1>
+
+    <img src="{{ url_for('static', filename=icon) }}" alt="{{ name }}">
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script>
+         async function loadMaker() {
+            const usernameElement = document.getElementById("username");
+            const eventmakerid = "{{ maker_id }}";   // injecté par Flask
+            const userId = parseInt(eventmakerid);  // convertir en nombre
+
+            // attendre la réponse de ton API
+            const event_maker_name = await get_user(userId);
+
+            const name = event_maker_name.map(user => `${user.name}`).join(" , ");
+
+            usernameElement.innerHTML = "creér par "+name;
+        }
+
+        // lancer au chargement
+        loadMaker();
+    </script>
+</body>
+</html>

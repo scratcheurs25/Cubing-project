@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>group</title>
+</head>
+<body>
+    <h1>Group {{name}} , id:{{id}}  <h1 id="username"></h1></h1>
+    <img src=" {{icon}} " alt="{{ name }}">
+    <p>users:</p>
+    <ul id="users-list"></ul>
+    <p>events:</p>
+
+    <ul id="events-list"></ul>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    <script>
+        async function loadMaker() {
+            const usernameElement = document.getElementById("username");
+            const eventmakerid = "{{ maker_id }}";   // injecté par Flask
+            const userId = parseInt(eventmakerid);  // convertir en nombre
+
+            // attendre la réponse de ton API
+            const event_maker_name = await get_user(userId);
+
+            const name = event_maker_name.map(user => `${user.name}`).join(" , ");
+
+            usernameElement.innerHTML = "creér par "+name;
+        }
+
+        
+
+async function _get_users() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await get_all_user_from_group(real_id)
+
+    const list = document.getElementById("users-list");
+    list.innerHTML = "";
+
+    data.forEach(user => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+         link.href = `/profil/${user.id}/detail`;
+        link.textContent = `ID: ${user.id} – ${user.name} - ${user.wca}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+}
+
+async function _get_events() {
+    let id = "{{id}}"
+    const real_id = parseInt(id)
+    let data = await get_all_events_from_group(real_id)
+
+    const list = document.getElementById("events-list");
+    list.innerHTML = "";
+
+    data.forEach(events => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("a");
+        link.href = `/events/${events.id}/detail`;
+        link.textContent = `ID: ${events.id} – ${events.name} - ${events.makerid}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+}
+
+loadMaker();
+_get_users();
+_get_events();
+    </script>
+</body>
+</html>

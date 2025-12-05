@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editor</title>
+</head>
+<body>
+
+    <h1>Événement : <input value="{{name}}" id="username"> , Id {{ id }}</h1>
+    <h1>règle : <input value="{{rule}}" id="text"></h1>
+
+    <input value="{{ url_for('static', filename=icon) }}" id="icon">
+    <img src="{{ url_for('static', filename=icon) }}" alt="{{ name }}">
+    <button onclick="_editEvents()">Apply</button>
+
+    <button onclick="delete_event('{{ id }}')">delete event</button>
+
+    <script src="{{ url_for('static', filename='api.js') }}"></script>
+    
+    <script>
+         async function loadMaker() {
+            const usernameElement = document.getElementById("username");
+            const eventmakerid = "{{ maker_id }}";   // injecté par Flask
+            const userId = parseInt(eventmakerid);  // convertir en nombre
+            
+
+            // attendre la réponse de ton API
+            const event_maker_name = await get_user(userId);
+
+            const name = event_maker_name.map(user => `${user.name}`).join(" , ");
+
+            usernameElement.innerHTML = "creér par "+name;
+        }
+
+        async function _editEvents() {
+            const id = "{{id}}"
+            await editEvents(id)
+        }
+        // lancer au chargement
+        loadMaker();
+    </script>
+</body>
+</html>

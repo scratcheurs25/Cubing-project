@@ -1,0 +1,21 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>log in </title>
+ </head>
+ <body>
+   <p>Username :</p>
+   <input id="username">
+   <p>Password</p>
+   <input id="password">
+  <div id="connect">
+    <p>connect</p>
+   <button  onclick="connect()">connect to account</button></div>
+
+   <a  href="/register">create account here</a>
+    <script  src="{{ url_for('static', filename='api.js') }}"></script>
+
+ </body>
+ </html>
