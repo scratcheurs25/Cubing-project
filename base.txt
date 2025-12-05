@@ -1,0 +1,37 @@
+
+-User
+Id
+WCA
+USERNAME
+Password
+role
+image de profile
+
+-groupe
+id
+name
+image
+id user
+(competition)
+
+-groupe user
+id
+id user
+id group
+
+-group epreve
+id
+id epreve
+id group
+
+-epreuve
+id
+nom
+id user
+url de l'icon
+
+-resulat
+id
+temp
+groupe epreuve
+user
