@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+</head>
+<body>
+<ul id="result_list"></ul>
+<script src="{{ url_for('static', filename='api.js') }}"></script>
+
+<script>
+async function _get() {
+    let user = "{{id_user}}"
+    let event = "{{id_event}}"
+    user = parseInt(user)
+    event = parseInt(event)
+
+    let data = await get_result_user(event,user)
+
+    const list = document.getElementById("result_list");
+    list.innerHTML = "";
+
+    data.forEach(result => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("p");
+        link.textContent = `ID: ${msToMinSecMs(result.time)}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+
+}
+
+_get()
+</script>
+
+</body>
+</html>

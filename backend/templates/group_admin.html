@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>group</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-    <h1>Group <input value="{{name}}" id="name_group"> , id:{{id}}  <h1 id="username"></h1></h1>
+    <h1>Group <input value="{{name}}"  id="name_group"> , id:{{id}}  <h1 id="username"></h1></h1>
     <input value="{{icon}}" id="icon">
-    <img src=" {{icon}} " alt="{{ name }}">
+    <img src=" {{icon}} " class="size-25" alt="{{ name }}">
 
     <button onclick="_edit()">Update</button>
     <p>users:</p>

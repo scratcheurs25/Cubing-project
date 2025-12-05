@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
 
-    <img src="{{ icon }}" alt="{{ name }}">
+    <img src="{{ icon }}" alt="" class="inline-block size-25 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
     <input value="{{ icon }}" id="icon">
     <h1><input value="{{name}}" id="username"> , Id {{id}} , wca <input value="{{wca}}" id="text"></h1>
 <h1>password <input id="password"></h1>

@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
 
     <h1>Événement : <input value="{{name}}" id="username"> , Id {{ id }}</h1>
     <h1>règle : <input value="{{rule}}" id="text"></h1>
 
-    <input value="{{ url_for('static', filename=icon) }}" id="icon">
-    <img src="{{ url_for('static', filename=icon) }}" alt="{{ name }}">
+    <input value="{{icon}}" id="icon">
+    <img src="{{ icon }}" class="size-15" alt="{{ name }}">
     <button onclick="_editEvents()">Apply</button>
 
     <button onclick="delete_event('{{ id }}')">delete event</button>
