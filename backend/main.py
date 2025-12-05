@@ -9,6 +9,7 @@ from date_base_cubing import user
 from date_base_cubing.user import *
 from date_base_cubing import event
 from date_base_cubing import group
+from date_base_cubing import result
 import os
 
 
@@ -266,6 +267,18 @@ def group_admin_page(group_id):
         return redirect(url_for("group_admin_page", group_id=group_id))
     return render_template("group_admin.html" ,  id = group_id , name = _group_name, icon = _group_icon, maker_id = _group_maker_id)
 
+@app.route("/group/maker")
+def  group_maker():
+    current_user = session["user_id"]
+    logging.info(f"user{current_user} is making a group")
+    return render_template("group_maker.html")
+
+@app.route("/result/<int:user_id>/<int:event_id>")
+def result_page(user_id,event_id):
+
+
+    return render_template("result.html", id_user = user_id , id_event = event_id )
+
 
 
 
@@ -506,6 +519,58 @@ def edit_group():
     out = group.edit_group(args[0],args[1],args[2], current_user)
     logging.info(out)
     return jsonify(out)
+
+@app.route("/api/v0/result/add_result" , methods=['POST'])
+def add_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"add result: {args}")
+    out = result.add_result(args[0],args[1],current_user)
+    logging.info(out)
+    return jsonify(out)
+
+@app.route("/api/v0/result/remove" , methods=['POST'])
+def remove_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"remove result: {args}")
+    out = result.del_result(args[0])
+    logging.info(out)
+    return jsonify(out)
+
+@app.route("/api/v0/result/get" , methods=['POST'])
+def get_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"get result: {args}")
+    out = result.get_result(args[0])
+    logging.info(out)
+    return jsonify(out)
+
+@app.route("/api/v0/result/get_all" , methods=['POST'])
+def get_all_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"get all result: {args}")
+    out = result.get_all_result()
+    logging.info(out)
+    return jsonify(out)
+
+
+@app.route("/api/v0/result/get_user_result" , methods=['POST'])
+def get_user_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"user resulr: {args}")
+    out = result.get_all_result_from_user_in_event(args[0],args[1])
+    logging.info(out)
+    return jsonify(out)
+
 
 
 
