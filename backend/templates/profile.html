@@ -9,11 +9,47 @@
 
     <img src="{{ icon }}" alt="" class="inline-block size-25 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5" />
     <p1 style="font-size: 35px;">{{ name }} </p1> <p1 style="font-size: 15px;"> Id : {{id}}</p1>
+    <br>
+    <p style="font-size: 35px;" > best single : <span id="single"></span></p>
 
+    <ul id="result_list"></ul>
 
     <p style="position:fixed; left:85%; top:85%; font-size: 35px;">wca : {{wca}}</p>
     <script src="{{ url_for('static', filename='api.js') }}"></script>
+<script>
+async function _get() {
+    let user = "{{id}}"
+    let event = "1"
+    user = parseInt(user)
+    event = parseInt(event)
+
+    let data = await get_result_user(event,user)
+    let data_best = await get_result_user_best(event,user)
+
+    const single = document.getElementById("single");
+    single.innerHTML = "";
+
+    if (data_best.length > 0) {
+    single.textContent = msToMinSecMs(data_best[0].time);
+}
 
 
+    const list = document.getElementById("result_list");
+    list.innerHTML = "";
+
+    data.forEach(result => {
+        const li = document.createElement("li");
+
+        const link = document.createElement("p");
+        link.textContent =  `${msToMinSecMs(result.time)}`;
+
+        li.appendChild(link);
+        list.appendChild(li);
+    });
+
+}
+
+_get()
+</script>
 </body>
 </html>

@@ -17,6 +17,8 @@
 
     <ul id="events-list"></ul>
 
+    <ul id="result_list"></ul>
+
 <input type="number" id="id">
 <p id="personne"></p>
 <button onclick="invite()">invite</button>
@@ -130,10 +132,37 @@ async function _edit() {
     
 }
 
+async function _get_group_result() {
+    let group = parseInt("{{id}}");
+    let event = 1;
+
+    let data = await get_result_group(event, group);
+
+    const list = document.getElementById("result_list");
+    list.innerHTML = "";
+
+    for (const result of data) {
+        const li = document.createElement("li");
+        const link = document.createElement("p");
+
+        const userData = await get_user(result.user_id);
+        const name_of_user = Array.isArray(userData)
+            ? userData.map(u => u.name).join(", ")
+            : userData.data.map(u => u.name).join(", ");
+
+        link.textContent = `${name_of_user} : ${msToMinSecMs(result.time)}`;
+        li.appendChild(link);
+        list.appendChild(li);
+    }
+}
+
+
 
 loadMaker();
 _get_users();
 _get_events();
+        _get_group_result();
+
 
     </script>
 </body>
