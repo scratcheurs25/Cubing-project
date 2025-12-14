@@ -61,7 +61,32 @@ def get_all_result_from_user_in_event(event_id,user_id):
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""   Select * from result where user_id = ? and id_event = ?  """, (user_id , event_id))
+    cur.execute("""   Select * from result where user_id = ? and id_event = ?""", (user_id , event_id))
+    rows = cur.fetchall()
+    conn.close()
+    return [dict(r) for r in rows][::-1]
+
+
+def get_all_result_from_user_best_in_event(event_id,user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""   Select * from result where user_id = ? and id_event = ? ORDER BY time ASC;""", (user_id , event_id))
+    rows = cur.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+def get_all_result_from_group(group_id,event_id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""SELECT * FROM result
+            INNER JOIN groupe_user
+            ON groupe_user.id_user = result.user_id
+            WHERE groupe_user.id_group = ?
+            AND result.id_event = ?
+            ORDER BY result.time ASC;
+""", (group_id,event_id))
     rows = cur.fetchall()
     conn.close()
     return [dict(r) for r in rows]
