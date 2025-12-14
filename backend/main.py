@@ -32,6 +32,37 @@ def hash_password(password: str) -> str:
     logging.info(f"hashing password {password}")
     return hashlib.sha512(password.encode("utf-8")).hexdigest()
 
+def avg(list_time,AoWhat):
+    list_avg_time= []
+    list_list_avg = []
+    for i in range(len(list_time)-(AoWhat-1)):
+        for y in range(AoWhat):
+            list_avg_time.append(list_time[y+i])
+        list_list_avg.append(list_avg_time)
+        print(list_avg_time)
+        list_avg_time = []
+    print(list_list_avg)
+    avg_f_list = []
+    for i in list_list_avg:
+        worst = 0
+        best = 0
+        for y in i:
+            if y > worst or worst == 0:
+                worst = y
+            if best == 0 or y < best:
+                best = y
+        print(f"{best} : {worst}")
+        sum = 0
+        for y in  i:
+            sum += y
+        sum -= worst
+        sum -= best
+        avg_f_list.append(sum/(AoWhat-2))
+    return avg_f_list
+
+
+
+
 
 def user_command(command, args):
     out = {}
@@ -273,11 +304,16 @@ def  group_maker():
     logging.info(f"user{current_user} is making a group")
     return render_template("group_maker.html")
 
-@app.route("/result/<int:user_id>/<int:event_id>")
+@app.route("/user/result/<int:user_id>/<int:event_id>")
 def result_page(user_id,event_id):
 
 
     return render_template("result.html", id_user = user_id , id_event = event_id )
+@app.route("/group/result/<int:group_id>/<int:event_id>")
+def result_group_page(group_id,event_id):
+
+
+    return render_template("result_group.html", id_group = group_id , id_event = event_id )
 
 
 
@@ -571,9 +607,29 @@ def get_user_result():
     logging.info(out)
     return jsonify(out)
 
+@app.route("/api/v0/result/get_user_best_result" , methods=['POST'])
+def get_user_best_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"user resulr: {args}")
+    out = result.get_all_result_from_user_best_in_event(args[0],args[1])
+    logging.info(out)
+    return jsonify(out)
+
+@app.route("/api/v0/result/get_group_result" , methods=['POST'])
+def get_group_result():
+    current_user = session.get("user_id")
+    data = request.get_json()
+    args = data.get("args", [])
+    logging.info(f"group result: {args}")
+    out = result.get_all_result_from_group(args[1] , args[0])
+    logging.info(out)
+    return jsonify(out)
 
 
 
+print(avg([3303,2709,4706,2366,3833,3834,299,299],5))
 
 if __name__ == "__main__":
     app.run(debug=True)
