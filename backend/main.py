@@ -67,7 +67,7 @@ def avg(list_time,AoWhat):
 def user_command(command, args):
     out = {}
     if command == "add":
-        out = user.add_users(args[0], args[1], hash_password(args[2]), False, args[4])
+        out = user.add_users(args[0], args[1], hash_password(args[2]), False, args[3])
     if command == "remove":
         out = user.del_users(args[0])
     if command == "get_user":
@@ -91,6 +91,15 @@ def user_command(command, args):
             logging.warn(f"user {args[0]} password {use_password} is incorrect or dosen't exist")
 
     return out
+
+@app.route('/register/reg', methods=['POST'])
+def submit():
+    name = request.form.get('username')
+    password = request.form.get('password')
+    icon = request.form.get('icon')
+
+    user_command("add", [name, "", password, icon])
+    return redirect(url_for("login_page"))
 
 
 @app.route("/profil/<int:user_id>/detail")
