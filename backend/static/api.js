@@ -409,6 +409,42 @@ async function get_result_user(event,user) {
   
 }
 
+async function get_result_user_best(event,user) {
+  const payload = {
+         "args":[event , user]
+      };
+      const response = await fetch(RESULT_URL+"get_user_best_result", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Récupération de la réponse JSON
+      const data = await response.json();
+      return data
+
+}
+
+async function get_result_group(event,group) {
+  const payload = {
+         "args":[event , group]
+      };
+      const response = await fetch(RESULT_URL+"get_group_result", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Récupération de la réponse JSON
+      const data = await response.json();
+      return data
+
+}
+
 function msToMinSecMs(ms) {
     // Validation d'entrée
     if (typeof ms !== 'number' || isNaN(ms) || ms < 0) {
