@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <p id="scremble"></p>
+    <p id="display">00:00.00</p>
+
+
+
+  <script>
+    let startTime = null;
+    let timerInterval = null;
+    let holdTimeout = null;
+    let ready = false;
+    let stopping = false;
+    let size = 6
+
+    const display = document.getElementById("display");
+    const scremble = document.getElementById("scremble");
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+      const seconds = String(totalSeconds % 60).padStart(2, "0");
+      const centiseconds = String(Math.floor((ms % 1000) / 10)).padStart(2, "0");
+      return `${minutes}:${seconds}.${centiseconds}`;
+    }
+
+    function updateTimer() {
+      const elapsed = Date.now() - startTime;
+      display.textContent = formatTime(elapsed);
+    }
+
+    function startTimer() {
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 10);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      stopping = true;
+    }
+
+    // Appui sur espace
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+
+        if (timerInterval) {
+          // Si le timer tourne → stop
+          stopTimer();
+          display.className = "text-"+size+"xl font-mono mb-6 text-white";
+        } else if (!holdTimeout) {
+          // Préparation (rouge)
+          display.className = "text-"+size+"xl font-mono mb-6 text-red-500";
+          ready = false;
+
+          // Après 1s → vert
+          holdTimeout = setTimeout(() => {
+            display.className = "text-"+size+"xl font-mono mb-6 text-green-500";
+            ready = true;
+          }, 1000);
+        }
+      }
+    });
+
+    // Relâche espace
+    document.addEventListener("keyup", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        clearTimeout(holdTimeout);
+        holdTimeout = null;
+
+        if (stopping) {
+          // On vient d’arrêter → garder le résultat affiché
+          stopping = false;
+          display.className = "text-"+size+"xl font-mono mb-6 text-black";
+          return;
+        }
+
+        if (!timerInterval) {
+          if (ready) {
+            // Si prêt (vert) → reset + démarrer
+            display.className = "text-"+size+"xl font-mono mb-6 text-black";
+            display.textContent = "00:00.00";
+            startTimer();
+          } else {
+            // Si pas prêt (rouge) → retour à blanc mais garder le temps affiché
+            display.className = "text-"+size+"xl font-mono mb-6 text-black";
+            // NE PAS resetDisplay() → on garde le dernier temps
+          }
+        }
+      }
+    });
+
+      function init(){
+      display.className = "text-"+size+"xl font-mono mb-6 text-black";
+      display.textContent = "00:00.00";
+      }
+      init()
+  </script>
+</body>
+</html>
+
