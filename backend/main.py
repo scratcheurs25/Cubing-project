@@ -78,7 +78,7 @@ def user_command(command, args):
         out = user.get_users_by_name(args[0])
     if command == "connect":
         logging.info(f"connecting to {args[0]}")
-        logging.info(f"gived password {args[1]}")
+        #logging.info(f"gived password {args[1]}")
         #args 1 is username
         #args 2 is password
         use_password = hash_password(args[1])
@@ -101,6 +101,29 @@ def submit():
     user_command("add", [name, "", password, icon])
     return redirect(url_for("login_page"))
 
+@app.route('/login/log', methods=['POST'])
+def submit_log():
+    name = request.form.get('username')
+    password = request.form.get('password')
+    logging.info(f"user {name} try to connect")
+    if get_users_by_name(name) != []:
+        logging.info(f"user exist in database {name}")
+        valid = user_command("connect", [name,password])
+        logging.info(valid)
+        if valid:
+            logging.info(f"user {name} connected")
+            _user = user.get_users_by_name(name)[0]
+            session["username"] = _user["name"]
+            session["user_id"] = _user["id"]
+            logging.info(f"{session} connected")
+            logging.info(f"{jsonify({
+                "logged_in": True,
+                "username": _user["name"],
+                "user_id": _user["id"]
+            })}")
+            return redirect(url_for("login_page"))
+
+    return redirect(url_for("regsiter_page"))
 
 @app.route("/profil/<int:user_id>/detail")
 def profile_page(user_id):
