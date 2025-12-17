@@ -10,7 +10,7 @@
     <p id="scremble"></p>
     <p id="display">00:00.00</p>
 
-
+<script src="{{ url_for('static', filename='api.js') }}"></script>
   <script>
     let startTime = null;
     let timerInterval = null;
@@ -21,6 +21,7 @@
 
     const display = document.getElementById("display");
     const scremble = document.getElementById("scremble");
+
 
     function formatTime(ms) {
       const totalSeconds = Math.floor(ms / 1000);
@@ -40,10 +41,14 @@
       timerInterval = setInterval(updateTimer, 10);
     }
 
-    function stopTimer() {
+    async function stopTimer() {
       clearInterval(timerInterval);
       timerInterval = null;
       stopping = true;
+      //add result time ; event_id
+      await add_result(display.textContent.replace(/[:.]/g, "") + "0", 1);
+
+
     }
 
     // Appui sur espace
@@ -104,6 +109,7 @@
       }
       init()
   </script>
+
 </body>
 </html>
 
