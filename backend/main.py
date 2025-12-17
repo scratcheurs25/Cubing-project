@@ -92,6 +92,10 @@ def user_command(command, args):
 
     return out
 
+@app.route('/timer')
+def timer_page():
+    return render_template("timer.html")
+
 @app.route('/register/reg', methods=['POST'])
 def submit():
     name = request.form.get('username')
@@ -588,7 +592,7 @@ def edit_group():
     logging.info(out)
     return jsonify(out)
 
-@app.route("/api/v0/result/add_result" , methods=['POST'])
+@app.route("/api/v0/result/add" , methods=['POST'])
 def add_result():
     current_user = session.get("user_id")
     data = request.get_json()
@@ -658,7 +662,6 @@ def get_group_result():
     out = result.get_all_result_from_group(args[1] , args[0])
     logging.info(out)
     return jsonify(out)
-
 
 
 print(avg([3303,2709,4706,2366,3833,3834,299,299],5))
