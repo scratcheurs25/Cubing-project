@@ -1,8 +1,8 @@
-const USER_URL = "http://127.0.0.1:5000/api/v0/user/";
-const EVENT_URL = "http://127.0.0.1:5000/api/v0/event/";
-const GROUP_URL = "http://127.0.0.1:5000/api/v0/group/"
-const ROOT_URL = "http://127.0.0.1:5000/"
-const RESULT_URL = "http://127.0.0.1:5000/api/v0/result/"
+const USER_URL = "/api/v0/user/";
+const EVENT_URL = "/api/v0/event/";
+const GROUP_URL = "/api/v0/group/"
+const ROOT_URL = "/"
+const RESULT_URL = "/api/v0/result/"
 
 let username = document.getElementById("username")
 let password = document.getElementById("password")
@@ -460,4 +460,21 @@ function msToMinSecMs(ms) {
     const msStr = milliseconds.toString().padStart(3, '0');
 
     return `${minutes}:${secStr}:${msStr}`;
+}
+
+async function add_result(time,event_id){
+const payload = {
+         "args":[time,event_id]
+      };
+      const response = await fetch(RESULT_URL+"add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Récupération de la réponse JSON
+      const data = await response.json();
+      return data
 }

@@ -1465,3 +1465,44 @@
             user_id TEXT NOT NULL)
 2025-12-17 18:14:23,372 [WARNING] werkzeug:  * Debugger is active!
 2025-12-17 18:14:23,381 [INFO] werkzeug:  * Debugger PIN: 823-972-715
+2025-12-17 18:17:22,117 [INFO] werkzeug:  * Detected change in 'D:\\programme\\Cubing-project\\backend\\main.py', reloading
+2025-12-17 18:17:22,182 [INFO] werkzeug:  * Restarting with stat
+2025-12-17 18:17:22,738 [DEBUG] root: CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT UNIQUE NOT NULL,
+            wca STRING NULL , 
+            password TEXT NOT NULL, 
+            role BOOLEAN NOT NULL,
+            icon TEXT NOT NULL)
+2025-12-17 18:17:22,739 [DEBUG] root: BEGIN 
+2025-12-17 18:17:22,739 [DEBUG] root: UPDATE users SET name = 'Admin' , wca = '2025JEAN01' , password = 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86' , role = 1 , icon = 'https://avatars.worldcubeassociation.org/jhzj1xf5tpjnya82k08iyhg111xd' WHERE id = 1;
+2025-12-17 18:17:22,740 [DEBUG] root: COMMIT
+2025-12-17 18:17:22,835 [DEBUG] root: CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT UNIQUE NOT NULL,
+            icon TEXT NOT NULL,
+            makerid INTEGER NOT NULL,
+            rule TEXT NOT NULL)
+2025-12-17 18:17:22,836 [DEBUG] root: SELECT * FROM events
+2025-12-17 18:17:22,837 [DEBUG] root: SELECT * FROM events WHERE id = 1
+2025-12-17 18:17:22,838 [DEBUG] root: SELECT * FROM events WHERE name = '3x3'
+2025-12-17 18:17:22,840 [DEBUG] root: CREATE TABLE IF NOT EXISTS groupe_user (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_user INTEGER NOT NULL,
+            id_group INTEGER NOT NULL)
+2025-12-17 18:17:22,842 [DEBUG] root: CREATE TABLE IF NOT EXISTS groupe_event (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_event INTEGER NOT NULL,
+            id_group INTEGER NOT NULL)
+2025-12-17 18:17:22,843 [DEBUG] root: CREATE TABLE IF NOT EXISTS groupe (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            icon TEXT NOT NULL,
+            makerid INTEGER NOT NULL)
+2025-12-17 18:17:22,844 [DEBUG] root: CREATE TABLE IF NOT EXISTS result (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            time INT NOT NULL,
+            id_event INTEGER NOT NULL,
+            user_id TEXT NOT NULL)
+2025-12-17 18:17:22,923 [WARNING] werkzeug:  * Debugger is active!
+2025-12-17 18:17:22,933 [INFO] werkzeug:  * Debugger PIN: 823-972-715
