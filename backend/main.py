@@ -129,6 +129,11 @@ def submit_log():
 
     return redirect(url_for("regsiter_page"))
 
+@app.route("/group/make")
+def make_group():
+    current_user = session["user_id"]
+    return render_template("create_group.html")
+
 @app.route("/profil/<int:user_id>/detail")
 def profile_page(user_id):
     current_user = session["user_id"]
